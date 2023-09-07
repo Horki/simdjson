@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="logotiny.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">simdjson
-   &#160;<span id="projectnumber">3.2.1</span>
+   &#160;<span id="projectnumber">3.2.3</span>
    </div>
    <div id="projectbrief">Ridiculously Fast JSON</div>
   </td>
@@ -507,11 +507,11 @@ Iteration Safety</h2>
 <div class="line">   ondemand::object c1 = parent[&quot;child1&quot;];</div>
 <div class="line">   // c1 owns the focus</div>
 <div class="line">   //</div>
-<div class="line">   if(std::string_view(c1[&quot;name&quot;]) != &quot;John&quot;) { ... }</div>
+<div class="line">   if (std::string_view(c1[&quot;name&quot;]) != &quot;John&quot;) { ... }</div>
 <div class="line">   // c2 attempts to grab the focus from parent but fails</div>
 <div class="line">   ondemand::object c2 = parent[&quot;child2&quot;];</div>
 <div class="line">   // c2 is now in an unsafe state and the following line would be unsafe</div>
-<div class="line">   // if(std::string_view(c2[&quot;name&quot;]) != &quot;Daniel&quot;) { return false; }</div>
+<div class="line">   // if (std::string_view(c2[&quot;name&quot;]) != &quot;Daniel&quot;) { return false; }</div>
 </div><!-- fragment --> <pre class="fragment">A correct usage is given by the following example:
 </pre> <div class="fragment"><div class="line">{C++}</div>
 <div class="line">   ondemand::parser parser;</div>
@@ -522,7 +522,7 @@ Iteration Safety</h2>
 <div class="line">   {</div>
 <div class="line">     ondemand::object c1 = parent[&quot;child1&quot;];</div>
 <div class="line">     // c1 grabbed the focus from parent</div>
-<div class="line">     if(std::string_view(c1[&quot;name&quot;]) != &quot;John&quot;) { return false; }</div>
+<div class="line">     if (std::string_view(c1[&quot;name&quot;]) != &quot;John&quot;) { return false; }</div>
 <div class="line">   }</div>
 <div class="line">   // c1 went out of scope, so its destructor was called and the focus</div>
 <div class="line">   // was handed back to parent.</div>
@@ -530,7 +530,7 @@ Iteration Safety</h2>
 <div class="line">     ondemand::object c2 = parent[&quot;child2&quot;];</div>
 <div class="line">     // c2 grabbed the focus from parent</div>
 <div class="line">     // the following is safe:</div>
-<div class="line">     if(std::string_view(c2[&quot;name&quot;]) != &quot;Daniel&quot;) { return false; }</div>
+<div class="line">     if (std::string_view(c2[&quot;name&quot;]) != &quot;Daniel&quot;) { return false; }</div>
 <div class="line">   }</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md73"></a>
 Benefits of the On Demand Approach</h2>
@@ -575,7 +575,7 @@ Checking Your CPU Selection (x64 systems)</h1>
 <p>Given that the On Demand API offer limited runtime dispatching, it matters that your code is compiled against a specific CPU target. You should verify that the code is compiled against the target you expect. Thankfully, the simdjson library will tell you exactly what it detects as an implementation: <code>icelake</code> (AVX512 x64 processors), <code>haswell</code> (AVX2 x64 processors), <code>westmere</code> (SSE4 x64 processors), <code>arm64</code> (64-bit ARM), <code>ppc64</code> (64-bit POWER), <code>fallback</code> (others). Under x64 processors, many programmers will want to target <code>haswell</code> whereas under ARM, most programmers will want to target <code>arm64</code> (and it should do so automatically). The <code>fallback</code> is probably only good for testing purposes, not for deployment.</p>
 <div class="fragment"><div class="line">{C++}</div>
 <div class="line"> std::cout &lt;&lt; simdjson::builtin_implementation()-&gt;name() &lt;&lt; std::endl;</div>
-</div><!-- fragment --><p>If the <code><a class="el" href="namespacesimdjson.html#af63210cc51d5c99ad84958daf9812e63" title="Represents the best statically linked simdjson implementation that can be used by the compiling progr...">simdjson::builtin_implementation()</a>-&gt;name()</code> call does not return the architecture you wish to target, you may need to pass flags to your compiler.</p>
+</div><!-- fragment --><p>If the <code><a class="el" href="namespacesimdjson.html#af63210cc51d5c99ad84958daf9812e63" title="Function which returns a pointer to an implementation matching the &quot;builtin&quot; implementation.">simdjson::builtin_implementation()</a>-&gt;name()</code> call does not return the architecture you wish to target, you may need to pass flags to your compiler.</p>
 <p>If you are using CMake for your C++ project, then you can pass compilation flags to your compiler by using the <code>CMAKE_CXX_FLAGS</code> variable:</p>
 <div class="fragment"><div class="line">cmake  -DCMAKE_CXX_FLAGS=&quot;-march=haswell&quot; -B build_haswell</div>
 <div class="line">cmake --build build_haswell</div>
